@@ -11,7 +11,7 @@ class LabAdmin(admin.ModelAdmin):
 
 @admin.register(Experiment)
 class ExperimentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'exp_name']
+    list_display = ['id','lab_id', 'exp_name']
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):

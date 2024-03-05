@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-
+import { Navigate } from "react-router-dom";
+import { Link } from 'react-router-dom'
 const GetForm = () => {
     const [selectedBatch,setSelectedBatch] = useState('');
     const [selectedRollNo,setSelectedRollNo] = useState('');
@@ -8,24 +9,25 @@ const GetForm = () => {
     const [response,setResponse] = useState('');
     const [labOptions, setLabOptions] = useState([]);
     const [batchOptions, setBatchOptions] = useState([]);
-    function handleSubmit(e){
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append('batch', selectedBatch);
-      formData.append('roll_no', selectedRollNo);
-      formData.append('lab_id', selectedLab);
-      fetch('http://127.0.0.1:8000/api/',{
-        method: 'POST',
-        body : formData
-      }).then(res => setResponse(res.statusText))
-      .catch(error => console.log(error))
+    const [responseRecieved, setResponseRecieved] = useState(false);
+    function handleSubmit(e) {
+        e.preventDefault();
+        fetch(`http://127.0.0.1:8000/api/exp?batch=${selectedBatch}&roll_no=${selectedRollNo}&lab_id=${selectedLab}`, {
+                method: 'GET',
+            })
+            .then(res => res.json())
+            .then(data => {
+                const expOptions = Object.entries(data).map(([expId, expName]) => ({
+                    id: expId,
+                    name: expName
+                }));
+                sessionStorage.setItem('exp_data', JSON.stringify(expOptions)); 
+            })
+            .then(() => setResponseRecieved(true))
+            .catch(error => console.log(error))
     }
+    
 
-    useEffect(()=>{
-        if (response === 'Created'){
-            setIsSubmitted(true)
-        }
-    },[response])
 
     useEffect(() => {
         if (selectedBatch) {
@@ -43,6 +45,7 @@ const GetForm = () => {
             .catch(error => console.log(error));
         }
     }, [selectedBatch]);
+
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/batches')
             .then(response => response.json())
@@ -50,15 +53,10 @@ const GetForm = () => {
             .catch(error => console.error('Error fetching batch options:', error));
     }, []);
 
-    function handleRollNoChange(e){
-        setSelectedRollNo(e.target.value)
-    }
-    function handleLabChange(e){
-        setSelectedLab(e.target.value)
-    }
-   
+
   return (
     <>
+    {responseRecieved && <Navigate to="/student/dashboard" replace={true} />}
     <div className='formDetials'>
         <form  style={{ display: 'flex', flexDirection: 'column' }} >
         <label>Class:</label>
@@ -81,24 +79,33 @@ const GetForm = () => {
             type="number"
             required 
             value={selectedRollNo}
-            onChange={handleRollNoChange}
+            onChange={e => setSelectedRollNo(e.target.value)}
             name = "roll_no"
             />
             <br></br><br></br>
             <label>Lab:</label>
             <div>
-                {labOptions.map(option => (
-                    <label key={option.id}>
-                        <input type="radio" value={option.id} />
-                        {option.name}
-                    </label>
-                ))}
+                <select
+                    value={selectedLab}
+                    name="lab"
+                    required
+                    onChange={e => setSelectedLab(e.target.value)}
+                >
+                    <option value="">Select Lab</option>
+                        {labOptions.map(option => (
+                            <option key={option.id} value={option.id}>
+                                {option.name}
+                            </option>
+                        ))}
+
+                </select>
+
             </div>
             <br></br><br></br>
             <button onClick={handleSubmit}>Log in</button>
         </form>
         <h3>{response}</h3>
-        
+        <Link to="/student/signup" > Signup</Link>
     </div>
     </>
 

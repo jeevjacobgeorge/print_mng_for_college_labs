@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import File,Student,Lab
+from .models import File,Student,Lab,Experiment
 from rest_framework import viewsets, permissions
 from .serializers import FileSerializer,StudentSerializer,FormSerializer
 from rest_framework.views import APIView
@@ -52,3 +52,18 @@ def BatchView(request):
         batches = Lab.objects.values_list('batch', flat=True).distinct()
         return JsonResponse(list(batches), safe=False)
         
+def ExperimentView(request):
+    if request.method == 'GET':
+        experiments = Experiment.objects.filter(lab_id=request.GET.get('lab_id'))
+        final_dict = dict()
+        for exp in experiments:
+            final_dict[exp.id] = {'exp_name': exp.exp_name}
+            try:
+                file_row = File.objects.get(std_id__batch=request.GET.get('batch'), std_id__roll_no=request.GET.get('roll_no'), lab_id=request.GET.get('lab_id'), exp_id=exp.id)
+                final_dict[exp.id]['uploaded'] = True
+                final_dict[exp.id]['url'] = file_row.file.url
+            except File.DoesNotExist:
+                final_dict[exp.id]['uploaded'] = False
+                final_dict[exp.id]['printed'] = False
+                final_dict[exp.id]['url'] = None  # Set url to None or any other appropriate value
+        return JsonResponse(final_dict, safe=False)
