@@ -21,7 +21,7 @@ class Lab(models.Model):
         if self.batch:
             self.batch = self.batch.upper()
         super().save(*args, **kwargs)
-        
+
     def __str__(self):
         return str(self.batch)+"_"+str(self.lab_name)
 
@@ -47,7 +47,14 @@ class File(models.Model):
     lab_id = models.ForeignKey(Lab, on_delete=models.CASCADE)
     exp_id = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     file = models.FileField(upload_to=file_upload_location)      
-    # class Meta:
-    #     unique_together = ('batch', 'roll_no', 'lab_id', 'exp_id')
+    class Meta:
+        unique_together = ('std_id', 'lab_id', 'exp_id')
     def __str__(self):
         return str(self.lab_id.batch)+"_"+str(self.std_id.roll_no)+"_"+str(self.lab_id.lab_name)+"_"+str(self.exp_id.exp_name)
+    
+    def delete(self, *args, **kwargs):
+        # Delete the file from the server
+        if os.path.isfile(self.file.path):
+            os.remove(self.file.path)
+        # Call the superclass's delete method
+        super().delete(*args, **kwargs)
