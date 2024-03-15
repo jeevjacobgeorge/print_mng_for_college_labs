@@ -11,23 +11,15 @@ const GetForm = () => {
     const [batchOptions, setBatchOptions] = useState([]);
     const [responseRecieved, setResponseRecieved] = useState(false);
     function handleSubmit(e) {
-        e.preventDefault();
-        fetch(`http://127.0.0.1:8000/api/exp?batch=${selectedBatch}&roll_no=${selectedRollNo}&lab_id=${selectedLab}`, {
-                method: 'GET',
-            })
-            .then(res => res.json())
-            .then(data => {
-                const expOptions = Object.entries(data).map(([expId, expName]) => ({
-                    id: expId,
-                    name: expName
-                }));
-                sessionStorage.setItem('exp_data', JSON.stringify(expOptions)); 
-            })
-            .then(() => setResponseRecieved(true))
-            .catch(error => console.log(error))
+        setResponseRecieved(true)
     }
     
-
+    const userData = {
+        selectedBatch: selectedBatch,
+        selectedRollNo: selectedRollNo,
+        selectedLab: selectedLab
+      };
+    sessionStorage.setItem('userData', JSON.stringify(userData));
 
     useEffect(() => {
         if (selectedBatch) {
