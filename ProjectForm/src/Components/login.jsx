@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Navigate } from "react-router-dom";
+import { Navigate, redirect, resolvePath } from "react-router-dom";
 import { Link } from 'react-router-dom'
 const GetForm = () => {
     const [selectedBatch,setSelectedBatch] = useState('');
@@ -10,10 +10,28 @@ const GetForm = () => {
     const [labOptions, setLabOptions] = useState([]);
     const [batchOptions, setBatchOptions] = useState([]);
     const [responseRecieved, setResponseRecieved] = useState(false);
+
+
     function handleSubmit(e) {
-        setResponseRecieved(true)
+        e.preventDefault();
+        fetch(`http://127.0.0.1:8000/api/student?roll_no=${selectedRollNo}&batch=${selectedBatch}`, {
+            method: 'GET',
+        })
+        .then(res => {
+            if (res.statusText === "OK" ){
+                setResponseRecieved(true);
+            }
+            else{
+                alert("Please sign up. Selected Roll No or Batch have not been registered")
+            }
+        })
+        
+        .catch(error => console.log(error))
+
+           
+            
     }
-    
+
     const userData = {
         selectedBatch: selectedBatch,
         selectedRollNo: selectedRollNo,
@@ -44,8 +62,6 @@ const GetForm = () => {
             .then(data => setBatchOptions(data))
             .catch(error => console.error('Error fetching batch options:', error));
     }, []);
-
-
   return (
     <>
     {responseRecieved && <Navigate to="/student/dashboard" replace={true} />}

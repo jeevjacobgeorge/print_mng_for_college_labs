@@ -9,6 +9,10 @@ import io
 import json
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
+from .models import Student
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 class FileUpload(APIView):
     def post(self,request,format = None):
         serializer = FormSerializer(data = request.data)
@@ -32,26 +36,10 @@ class FileUpload(APIView):
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
 
-def LabView(request):
-    if request.method == 'GET':
-        batch = request.GET.get('batch')  # Get the 'batch' query parameter from the URL
-        
-        if batch is not None:
-            labs = Lab.objects.filter(batch=batch)
-            lab_dict = {lab.id: lab.lab_name for lab in labs}
-            return JsonResponse(lab_dict, safe=False)
-        
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
-def BatchView(request):
-    if request.method == 'GET':
-        batches = Lab.objects.values_list('batch', flat=True).distinct()
-        return JsonResponse(list(batches), safe=False)
         
+
 def ExperimentView(request):
     if request.method == 'GET':
         experiments = Experiment.objects.filter(lab_id=request.GET.get('lab_id'))
@@ -67,3 +55,26 @@ def ExperimentView(request):
                 final_dict[exp.id]['printed'] = False
                 final_dict[exp.id]['url'] = None  # Set url to None or any other appropriate value
         return JsonResponse(final_dict, safe=False)
+    
+
+def LabView(request):
+    if request.method == 'GET':
+        batch = request.GET.get('batch')  # Get the 'batch' query parameter from the URL
+        if batch is not None:
+            labs = Lab.objects.filter(batch=batch)
+            lab_dict = {lab.id: lab.lab_name for lab in labs}
+            return JsonResponse(lab_dict, safe=False)     
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def BatchView(request):
+    if request.method == 'GET':
+        batches = Lab.objects.values_list('batch', flat=True).distinct()
+        return JsonResponse(list(batches), safe=False)
+
+def StudentCheck(request):
+    if request.method == 'GET':
+        students = Student.objects.filter(roll_no=request.GET.get('roll_no'), batch=request.GET.get('batch'))
+        if students:
+            return JsonResponse({'statusText': ' Valid request'}, status=200)
+        else:
+            return JsonResponse({'statusText': 'Invalid request'}, status=400)

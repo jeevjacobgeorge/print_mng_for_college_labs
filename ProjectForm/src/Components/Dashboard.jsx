@@ -30,7 +30,6 @@ const Dashboard = () => {
             
             .then(() => 
             setResponseRecieved(true)
-            
             )
             .catch(error => console.log(error))
         
@@ -49,7 +48,7 @@ const Dashboard = () => {
         }).then(res => setResponse(res.statusText))
         .then(console.log(response))
         .catch(error => console.log(error))
-        console.log("hello ",response)
+        console.log(response)
         window.location.reload()
 
     }
