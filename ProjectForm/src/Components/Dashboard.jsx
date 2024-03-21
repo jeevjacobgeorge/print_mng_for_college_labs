@@ -35,7 +35,7 @@ const Dashboard = () => {
         
     },[])
     function handleSubmit(e){
-        e.preventDefault();
+        // e.preventDefault();
         const formData = new FormData();
         formData.append('batch', selectedBatch);
         formData.append('roll_no', selectedRollNo);
@@ -49,7 +49,7 @@ const Dashboard = () => {
         .then(console.log(response))
         .catch(error => console.log(error))
         console.log(response)
-        window.location.reload()
+        // window.location.reload()
 
     }
     

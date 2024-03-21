@@ -2,6 +2,66 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
-
+        <div class="main">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="options">
+                    <label for="Class">Class</label>
+                    <select name='batch' id = "ClassDropdown" onchange="loadLabs()">
+                        {% for batch in batches %}
+                        <option value="{{ batch }}">{{ batch }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="Class">Lab</label>
+                    <select name="lab" id = "LabDropdown">
+                    </select>
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+            </form>
+            {% if experiments %}
+            <table id="printTable">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>EX1</th>
+                        <th>EX2</th>
+                        <th>EX3</th>
+                        <th>Print</th>
+    
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>✔</td>
+                        <td>❌</td>
+                        <td>✔</td>
+                        <td><button class="print">Print</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>❌</td>
+                        <td>✔</td>
+                        <td>✔</td>
+                        <td><button class="print">Print</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <script>
+            function loadLabs(){
+                var batch = document.getElementById("ClassDropdown").value;
+                fetch(`labs/?batch=${batch}`,{method:'GET',})
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("LabDropdown").innerHTML = '';
+                    for (var i = 0; i < data.length; i++) {
+                        document.getElementById("LabDropdown").innerHTML += `<option value="${data[i]['lab_name']}">${data[i]['lab_name']}</option>`
+                    }
+                })
+            }
+            console.log(`{{experiments}}`)
+        </script>
     </div>
 {% endblock content %}
