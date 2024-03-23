@@ -8,43 +8,38 @@
                 <div class="options">
                     <label for="Class">Class</label>
                     <select name='batch' id = "ClassDropdown" onchange="loadLabs()">
+                        <option value ="" disabled selected>Select Class</option>
                         {% for batch in batches %}
                         <option value="{{ batch }}">{{ batch }}</option>
                         {% endfor %}
                     </select>
                     <label for="Class">Lab</label>
                     <select name="lab" id = "LabDropdown">
+                        <option value ="" disabled selected>Select Lab</option>
                     </select>
                     <button type="submit" class="btn">Submit</button>
                 </div>
             </form>
-            {% if experiments %}
+            {% if roll_list %}
             <table id="printTable">
                 <thead>
                     <tr>
                         <th>Roll No</th>
-                        <th>EX1</th>
-                        <th>EX2</th>
-                        <th>EX3</th>
+                        {% for name in exp_names_list %}
+                            <th>{{name}}</th>
+                        {% endfor %}
                         <th>Print</th>
     
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr>
-                        <td>1</td>
-                        <td>✔</td>
-                        <td>❌</td>
-                        <td>✔</td>
-                        <td><button class="print">Print</button></td>
+                {% for roll in roll_list %}
+                <tr>
+                        <td>{{roll}}</td>
+                        {% %}
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>❌</td>
-                        <td>✔</td>
-                        <td>✔</td>
-                        <td><button class="print">Print</button></td>
-                    </tr>
+                {% endfor %}                       
+
                 </tbody>
             </table>
             {% endif %}
