@@ -3,24 +3,24 @@
 {% block content %}
     <div class="content-section">
         <div class="main">
-            <form action="" method="post">
+            <form id="myForm" action="" method="post">
                 {% csrf_token %}
                 <div class="options">
                     <label for="Class">Class</label>
-                    <select name='batch' id = "ClassDropdown" onchange="loadLabs()">
-                        <option value ="" disabled selected>Select Class</option>
+                    <select name='batch' id="ClassDropdown" onchange="loadLabs()">
+                        <option value="" disabled selected>Select Class</option>
                         {% for batch in batches %}
-                        <option value="{{ batch }}">{{ batch }}</option>
+                            <option value="{{ batch }}">{{ batch }}</option>
                         {% endfor %}
                     </select>
                     <label for="Class">Lab</label>
-                    <select name="lab" id = "LabDropdown">
-                        <option value ="" disabled selected>Select Lab</option>
+                    <select name="lab" id="LabDropdown">
+                        <option value="" disabled selected>Select Lab</option>
                     </select>
                     <button type="submit" class="btn">Submit</button>
                 </div>
             </form>
-            {% if roll_list %}
+            {% if experiments_json %}
             <table id="printTable">
                 <thead>
                     <tr>
@@ -29,22 +29,22 @@
                             <th>{{name}}</th>
                         {% endfor %}
                         <th>Print</th>
-    
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                {% for roll in roll_list %}
-                <tr>
-                        <td>{{roll}}</td>
-                        {% %}
-                    </tr>
-                {% endfor %}                       
-
                 </tbody>
             </table>
             {% endif %}
         </div>
+    </div>
         <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("myForm").addEventListener("submit", function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    renderTable(); // Call the function to render the table after form submission
+                });
+            });
+
             function loadLabs(){
                 var batch = document.getElementById("ClassDropdown").value;
                 fetch(`labs/?batch=${batch}`,{method:'GET',})
@@ -56,7 +56,41 @@
                     }
                 })
             }
-            console.log(`{{experiments}}`)
-        </script>
-    </div>
+            
+            function renderTable() {
+                console.log(`{{experiments_json}}`)
+                var roll_list = JSON.parse(`{{ roll_list|safe }}`);
+                var experiments = JSON.parse(`{{ experiments_json|safe }}`); //experiments is a JSON object
+                const table_body = document.getElementById("tableBody");
+                table_body.innerHTML = '';
+                console.log(roll_list)
+                for (let i = 0; i < roll_list.length; i++ ){
+                    const tr = document.createElement("tr");
+                    console.log(experiments[i])
+                    const td = document.createElement("td");  
+                    td.innerHTML = roll_list[i].toString();  
+                    tr.appendChild(td);
+                    for (var key in experiments[i]) {
+                        if (experiments[i].hasOwnProperty(key)) {
+
+                            const td1 = document.createElement("td");
+                            if (experiments[i][key][0]){
+                                td1.innerHTML = `<a href="${experiments[i][key][1]}">Print</a>`;
+                            }
+                            else{
+                                td1.innerHTML = `<h3>NULL</h3>`
+                            }
+                            tr.appendChild(td1);
+                            // console.log(key + ": " + experiments[i][key]);
+                        }
+                    }
+                    table_body.appendChild(tr);
+                }
+            }
+       </script>
+
 {% endblock content %}
+
+
+
+

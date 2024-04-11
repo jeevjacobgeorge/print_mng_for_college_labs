@@ -28,26 +28,28 @@ def home(request):
     elif request.method == 'POST':
         batch = request.POST.get('batch')
         lab = request.POST.get('lab')
-        experiments = Experiment.objects.filter(lab_id__lab_name=lab)
+        experiments = Experiment.objects.filter(lab_id__lab_name=lab).order_by('exp_name')
         exp_name_list =  sorted(experiments.values_list('exp_name', flat=True)) 
         data_dict = {}
         
         students = Student.objects.filter(batch=batch)
-        roll_list = []
-        uploaded = []
-        urls = []
+        
         for student in students:
-            roll_list.append(student.roll_no)
-            for exp in experiments:                
+            data_dict[student.roll_no] = {}
+            
+            for exp in experiments:
+                data_dict[student.roll_no][exp.exp_name] = [False,None]
+                
                 try:
                     file_instance = File.objects.get(std_id=student, lab_id=exp.lab_id, exp_id=exp.id)
-                    uploaded.append(True) 
-                    urls.append(file_instance.file.url)
+                    data_dict[student.roll_no][exp.exp_name][0] = True
+                    data_dict[student.roll_no][exp.exp_name][1] = file_instance.file.url
                 except File.DoesNotExist:
-                    uploaded.append(False)
-                    urls.append(None)
-                            
-        return render(request, 'users/home.html', {'roll_list': roll_list, 'batches': batches,'exp_names_list':exp_name_list,'uploaded':uploaded,'urls':urls})
+                    data_dict[student.roll_no][exp.exp_name][0] = False
+                    data_dict[student.roll_no][exp.exp_name][1] = None
+        roll_list = json.dumps(list(data_dict.keys()))
+        experiments_json = json.dumps(list(data_dict.values()))          
+        return render(request, 'users/home.html', {'experiments_json': experiments_json, 'batches': batches,'exp_names_list':exp_name_list, 'roll_list': roll_list})
     
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
