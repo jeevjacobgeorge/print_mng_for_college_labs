@@ -46,7 +46,8 @@ class File(models.Model):
     std_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     lab_id = models.ForeignKey(Lab, on_delete=models.CASCADE)
     exp_id = models.ForeignKey(Experiment, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=file_upload_location)      
+    file = models.FileField(upload_to=file_upload_location)
+    printed = models.BooleanField(default=False)  # Added boolean field to track if the file has been printed      
     class Meta:
         unique_together = ('std_id', 'lab_id', 'exp_id')
     def __str__(self):

@@ -38,8 +38,7 @@ def home(request):
             data_dict[student.roll_no] = {}
             
             for exp in experiments:
-                data_dict[student.roll_no][exp.exp_name] = [False,None]
-                
+                data_dict[student.roll_no][exp.exp_name] = [False,None,False]
                 try:
                     file_instance = File.objects.get(std_id=student, lab_id=exp.lab_id, exp_id=exp.id)
                     data_dict[student.roll_no][exp.exp_name][0] = True
@@ -47,6 +46,7 @@ def home(request):
                 except File.DoesNotExist:
                     data_dict[student.roll_no][exp.exp_name][0] = False
                     data_dict[student.roll_no][exp.exp_name][1] = None
+                data_dict[student.roll_no][exp.exp_name][2] = file_instance.printed
         roll_list = json.dumps(list(data_dict.keys()))
         experiments_json = json.dumps(list(data_dict.values()))          
         return render(request, 'users/home.html', {'experiments_json': experiments_json, 'batches': batches,'exp_names_list':exp_name_list, 'roll_list': roll_list})

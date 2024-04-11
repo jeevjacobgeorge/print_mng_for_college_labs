@@ -72,9 +72,11 @@
                     tr.appendChild(td);
                     for (var key in experiments[i]) {
                         if (experiments[i].hasOwnProperty(key)) {
-
                             const td1 = document.createElement("td");
-                            if (experiments[i][key][0]){
+                            if (experiments[i][key][2]){
+                                td1.innerHTML = `<h3>Printed</h3>`
+                            }
+                            else if (experiments[i][key][0]){
                                 const url = "http://127.0.0.1:8000/" + `${experiments[i][key][1]}`;
                                 td1.innerHTML = `<button onClick=print('${url}')>Print</button>`;
                             }
@@ -85,6 +87,9 @@
                             // console.log(key + ": " + experiments[i][key]);
                         }
                     }
+                    const td2 = document.createElement("td");
+                    td2.innerHTML = `<button onClick=print_student('${i}')>Print all</button>`;
+                    tr.appendChild(td2)
                     table_body.appendChild(tr);
                 }
             }
@@ -106,6 +111,47 @@
                     console.error('There was a problem with fetching the file:', error);
                 });
             }
+            function print_student(i){
+                var filePromises = [];
+                var experiments = JSON.parse(`{{ experiments_json|safe }}`)
+                for (var key in experiments[i]) {
+                    if (experiments[i].hasOwnProperty(key)) {
+                    // Check if the experiment belongs to the given studentId
+                        if (experiments[i][key][0]) {
+                            const url = "http://127.0.0.1:8000/" + `${experiments[i][key][1]}`;
+                            filePromises.push(fetchFileContent(url));
+                        }
+                    }
+                }
+                Promise.all(filePromises)
+                .then(fileContents => {
+                    var combinedContent = fileContents.join('\n\n');
+                    printContent(combinedContent);
+                })
+                .catch(error => {
+                    console.error('There was a problem with fetching the file content:', error);
+                });
+            }
+            function fetchFileContent(url) {
+                return fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .catch(error => {
+                    console.error('There was a problem with fetching the file:', error);
+                    return ''; // Return empty string to avoid breaking Promise.all
+                });
+            }
+            function printContent(content) {
+                var printWindow = window.open('', '_blank');
+                printWindow.document.write('<pre>' + content + '</pre>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+
        </script>
 
 {% endblock content %}
