@@ -75,7 +75,8 @@
 
                             const td1 = document.createElement("td");
                             if (experiments[i][key][0]){
-                                td1.innerHTML = `<a href="${experiments[i][key][1]}">Print</a>`;
+                                const url = "http://127.0.0.1:8000/" + `${experiments[i][key][1]}`;
+                                td1.innerHTML = `<button onClick=print('${url}')>Print</button>`;
                             }
                             else{
                                 td1.innerHTML = `<h3>NULL</h3>`
@@ -86,6 +87,24 @@
                     }
                     table_body.appendChild(tr);
                 }
+            }
+            function print(url){
+                fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(fileContent => {
+                    var printWindow = window.open('', '_blank');
+                    printWindow.document.write('<pre>' + fileContent + '</pre>');
+                    printWindow.document.close();
+                    printWindow.print();
+                })
+                .catch(error => {
+                    console.error('There was a problem with fetching the file:', error);
+                });
             }
        </script>
 
