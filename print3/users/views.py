@@ -18,14 +18,11 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'users/signup.html', {'form': form})
+
 @login_required
-def home(request):
+def home1(request):
     batches = Lab.objects.values_list('batch', flat=True).distinct()
-    
-    if request.method == 'GET':
-        return render(request, 'users/home.html', {'batches': batches})
-    
-    elif request.method == 'POST':
+    if request.method == 'POST':
         batch = request.POST.get('batch')
         lab = request.POST.get('lab')
         experiments = Experiment.objects.filter(lab_id__lab_name=lab).order_by('exp_name')
@@ -51,6 +48,12 @@ def home(request):
         experiments_json = json.dumps(list(data_dict.values()))          
         return render(request, 'users/home.html', {'experiments_json': experiments_json, 'batches': batches,'exp_names_list':exp_name_list, 'roll_list': roll_list})
     
+
+@login_required
+def home(request):
+    batches = Lab.objects.values_list('batch', flat=True).distinct()
+    if request.method == 'GET':
+        return render(request, 'users/home.html', {'batches': batches})
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 

@@ -13,6 +13,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 cohere==4.51
 command-not-found==0.3
+crispy-bootstrap4==2024.1
 cryptography==3.4.8
 cs50==9.2.7
 dbus-python==1.2.18
