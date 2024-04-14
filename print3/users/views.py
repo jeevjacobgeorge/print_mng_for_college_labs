@@ -35,17 +35,19 @@ def home1(request):
             data_dict[student.roll_no] = {}
             
             for exp in experiments:
-                data_dict[student.roll_no][exp.exp_name] = [False,None,False]
+                data_dict[student.roll_no][exp.exp_name] = [False,'',False]
                 try:
                     file_instance = File.objects.get(std_id=student, lab_id=exp.lab_id, exp_id=exp.id)
                     data_dict[student.roll_no][exp.exp_name][0] = True
                     data_dict[student.roll_no][exp.exp_name][1] = file_instance.file.url
+                    data_dict[student.roll_no][exp.exp_name][2] = file_instance.printed
+
                 except File.DoesNotExist:
                     data_dict[student.roll_no][exp.exp_name][0] = False
-                    data_dict[student.roll_no][exp.exp_name][1] = None
-                data_dict[student.roll_no][exp.exp_name][2] = file_instance.printed
+                    data_dict[student.roll_no][exp.exp_name][1] = ''
+                data_dict[student.roll_no][exp.exp_name].append(file_instance.id)
         roll_list = json.dumps(list(data_dict.keys()))
-        experiments_json = json.dumps(list(data_dict.values()))          
+        experiments_json = json.dumps(list(data_dict.values())) if data_dict else '[]'
         return render(request, 'users/home.html', {'experiments_json': experiments_json, 'batches': batches,'exp_names_list':exp_name_list, 'roll_list': roll_list})
     
 
@@ -63,3 +65,21 @@ def labs(request):
         return JsonResponse(list(labs.values('lab_name')), safe=False)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def mark_files_as_printed(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        file_ids = data.get('file_ids')
+        if file_ids is not None:
+            try:
+                File.objects.filter(id=file_ids).update(printed=True)
+                print(File.objects.get(id=file_ids))
+                return JsonResponse({'success': True})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
+        else:
+            print('data is none')
+            return JsonResponse({'success': False, 'error': 'No file_ids provided in the POST data'})
+
+        

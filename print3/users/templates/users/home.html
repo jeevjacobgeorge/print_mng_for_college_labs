@@ -38,13 +38,52 @@
         </div>
     </div>
         <script>
-                
-            //     document.addEventListener("DOMContentLoaded", function() {
-            //     document.getElementById("myForm").addEventListener("submit", function(event) {
-            //         //event.preventDefault(); // Prevent the default form submission
-            //         //renderTable(); // Call the function to render the table after form submission
-            //     });
-            // });
+            function markFilesAsPrinted(id) {
+                     // Retrieve the CSRF token from the cookie
+                    const csrftoken = getCookie('csrftoken');
+                    // Define the data to be sent
+                    const data = { file_ids: id };
+
+                    // Define the fetch options
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken // Include the CSRF token in the request headers
+                        },
+                        body: JSON.stringify(data)
+                    };
+
+                    // Send the request
+                    fetch('/users/mark_files_as_printed/', options)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            console.log('Files marked as printed successfully');
+                        })
+                        .catch(error => {
+                            console.error('Error marking files as printed:', error);
+                        });
+                }
+
+        // Function to retrieve the CSRF token from cookies
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.startsWith(name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+
 
             function loadLabs(){
                 var batch = document.getElementById("ClassDropdown").value;
@@ -81,7 +120,8 @@
                                 }
                                 else if (experiments[i][key][0]){
                                     const url = "http://127.0.0.1:8000/" + `${experiments[i][key][1]}`;
-                                    td1.innerHTML = `<button onClick=print('${url}')>Print</button>`;
+                                    const id = `${experiments[i][key][3]}`
+                                    td1.innerHTML = `<button onclick=print('${url}','${id}')>Print</button>`;
                                 }
                                 else{
                                     td1.innerHTML = `<h3>NULL</h3>`
@@ -91,30 +131,43 @@
                             }
                         }
                         const td2 = document.createElement("td");
-                        td2.innerHTML = `<button onClick=print_student('${i}')>Print all</button>`;
+                        td2.innerHTML = `<button onclick=print_student('${i}')>Print all</button>`;
                         tr.appendChild(td2)
                         table_body.appendChild(tr);
                     }
                 }
             }
-            function print(url){
+            function print(url, id) {
                 fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(fileContent => {
-                    var printWindow = window.open('', '_blank');
-                    printWindow.document.write('<pre>' + fileContent + '</pre>');
-                    printWindow.document.close();
-                    printWindow.print();
-                })
-                .catch(error => {
-                    console.error('There was a problem with fetching the file:', error);
-                });
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(fileContent => {
+                        var printWindow = window.open('', '_blank');
+                        printWindow.document.write('<pre>' + fileContent + '</pre>');
+                        printWindow.document.close();
+                        printWindow.print();
+
+                        // Function to execute markFilesAsPrinted after confirmation
+                        function executeMarkFilesAsPrinted() {
+                            var printSuccessful = confirm("Was the print successful?");
+                            if (printSuccessful) {
+                                markFilesAsPrinted(id);
+                                location.reload();
+                            }
+                        }
+
+                        // Delay the execution of executeMarkFilesAsPrinted
+                        setTimeout(executeMarkFilesAsPrinted, 1000); // Adjust the delay time as needed
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with fetching the file:', error);
+                    });
             }
+
             function print_student(i){
                 var filePromises = [];
                 var experiments = JSON.parse(`{{ experiments_json|safe }}`)
@@ -131,6 +184,20 @@
                 .then(fileContents => {
                     var combinedContent = fileContents.join('\n\n');
                     printContent(combinedContent);
+                    function executeMarkFilesAsPrinted() {
+                            var printSuccessful = confirm("Was the print successful?");
+                            if (printSuccessful) {
+                               for (var key in experiments[i]) {
+                                    if (experiments[i].hasOwnProperty(key)){
+                                        markFilesAsPrinted(experiments[i][key][3]);
+                                    }
+                               }
+                                location.reload();
+                            }
+                    }
+                    setTimeout(executeMarkFilesAsPrinted, 1000); // Adjust the delay time as needed
+
+                    
                 })
                 .catch(error => {
                     console.error('There was a problem with fetching the file content:', error);
@@ -157,6 +224,7 @@
             }
 
        </script>
+       
 
 {% endblock content %}
 

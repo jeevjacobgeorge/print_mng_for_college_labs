@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/exp', views.ExperimentView, name='login_api'),
     path('api/batches', views.BatchView, name='batch_api'),
     path('users/',include('users.urls')),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
