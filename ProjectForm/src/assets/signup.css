@@ -1,0 +1,90 @@
+body{
+    box-sizing: border-box;
+    background: rgba(0, 0, 0,0.9);
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 100%;
+    height: 100%;
+}
+.formDetials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 700px;
+    height: 600px;
+    background: rgba(22,32,42,255);
+    border-radius: 20px;
+}
+form{
+    width: 100%;
+    margin: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+img{
+    height: 600px;
+    width: 65%;
+}
+.profile{
+    height: 200px;
+    width: 65%; 
+    margin-left: 45px;
+    margin-bottom: 0px;
+}
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%; 
+}
+
+label {
+    margin-right: 3px;
+    flex: 1; 
+    font-size: 20px;
+    color: white;
+}
+h1{
+    color: white;
+    margin-top: 0px;
+    margin-left: 70px;
+}
+select,
+input[type="number"],input[type="text"] {
+    flex: 2; 
+    width: 40%;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+    padding: 5px;
+} 
+
+.signup {
+    width: 100%;
+    max-width: 150px; 
+    margin: 15px;
+    font-weight: bold;
+    font-size: 25px;
+    flex: 1;
+    background: rgba(197,166,1,255);
+    border: none;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    margin-left: 60px;
+}

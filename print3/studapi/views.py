@@ -50,6 +50,7 @@ def ExperimentView(request):
                 file_row = File.objects.get(std_id__batch=request.GET.get('batch'), std_id__roll_no=request.GET.get('roll_no'), lab_id=request.GET.get('lab_id'), exp_id=exp.id)
                 final_dict[exp.id]['uploaded'] = True
                 final_dict[exp.id]['url'] = file_row.file.url
+                final_dict[exp.id]['printed'] = file_row.printed
             except File.DoesNotExist:
                 final_dict[exp.id]['uploaded'] = False
                 final_dict[exp.id]['printed'] = False

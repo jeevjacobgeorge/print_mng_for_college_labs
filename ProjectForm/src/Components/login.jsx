@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Navigate, redirect, resolvePath } from "react-router-dom";
 import { Link } from 'react-router-dom'
+import loginImage from '../assets/cube.jpg'
+import profilepic from '../assets/profilepic.svg'
+import '../assets/login.css'
 const GetForm = () => {
     const [selectedBatch,setSelectedBatch] = useState('');
     const [selectedRollNo,setSelectedRollNo] = useState('');
@@ -65,57 +68,63 @@ const GetForm = () => {
   return (
     <>
     {responseRecieved && <Navigate to="/student/dashboard" replace={true} />}
-    <div className='formDetials'>
-        <form  style={{ display: 'flex', flexDirection: 'column' }} >
-        <label>Class:</label>
-            <select
-                value={selectedBatch}
-                name="batch"
-                required
-                onChange={e => setSelectedBatch(e.target.value)}
-            >
-                <option value="">Select Batch</option>
-                {batchOptions.map(batch => (
-                    <option key={batch} value={batch}>
-                        {batch}
-                    </option>
-                ))}
-            </select>
-            <br></br><br></br>
-            <label>Roll No:</label>
-            <input 
-            type="number"
-            required 
-            value={selectedRollNo}
-            onChange={e => setSelectedRollNo(e.target.value)}
-            name = "roll_no"
-            />
-            <br></br><br></br>
-            <label>Lab:</label>
-            <div>
-                <select
-                    value={selectedLab}
-                    name="lab"
-                    required
-                    onChange={e => setSelectedLab(e.target.value)}
-                >
-                    <option value="">Select Lab</option>
+    <div className="container">
+        <div className='formDetails'>
+            <form>
+                <img src={profilepic} alt="" className='profile' />
+                <h1>LOGIN</h1>
+                <div className="form-group">
+                    <label htmlFor="batch">Class:</label>
+                    <select
+                        value={selectedBatch}
+                        name="batch"
+                        required
+                        onChange={e => setSelectedBatch(e.target.value)}
+                    >
+                        <option value="">Select Batch</option>
+                        {batchOptions.map(batch => (
+                            <option key={batch} value={batch}>
+                                {batch}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="roll_no">Roll No:</label>
+                    <input 
+                        type="number"
+                        required 
+                        value={selectedRollNo}
+                        onChange={e => setSelectedRollNo(e.target.value)}
+                        name="roll_no"
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lab">Lab:</label>
+                    <select
+                        value={selectedLab}
+                        name="lab"
+                        required
+                        onChange={e => setSelectedLab(e.target.value)}
+                    >
+                        <option value="">Select Lab</option>
                         {labOptions.map(option => (
                             <option key={option.id} value={option.id}>
                                 {option.name}
                             </option>
                         ))}
-
-                </select>
-
-            </div>
-            <br></br><br></br>
-            <button onClick={handleSubmit}>Log in</button>
-        </form>
-        <h3>{response}</h3>
-        <Link to="/student/signup" > Signup</Link>
+                    </select>
+                </div>
+                <button onClick={handleSubmit} className='login'>Login</button>
+                <br />
+            <Link to="/student/signup" className='Signup'>Not Registered? <span>Signup</span></Link>
+            </form>
+            {/* <h3>{response}</h3> */}
+        <img src={loginImage} alt="loginimage" className="login-image" />
+        </div>
     </div>
-    </>
+    
+   </>
 
   )
 }

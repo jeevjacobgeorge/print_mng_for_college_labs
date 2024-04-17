@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Navigate } from "react-router-dom";
+import '../assets/signup.css'
+import SignupImage from '../assets/cube.jpg'
+import profilepic from '../assets/profilepic.svg'
+import { Link } from 'react-router-dom'
 const GetForm = () => {
     const [selectedName,setSelectedName] = useState('');
     const [selectedBatch,setSelectedBatch] = useState('');
@@ -30,47 +34,61 @@ const GetForm = () => {
         setSelectedName(e.target.value)
     }
     function handleClassChange(e){
-        setSelectedBatch(e.target.value)
+      setSelectedBatch(e.target.value)
     }
     function handleRollNoChange(e){
-        setSelectedRollNo(e.target.value)
+      setSelectedRollNo(e.target.value)
     }
-   
+    
   return (
     <>
     {isSubmitted && <Navigate to="/student/login" replace={true} />}
-    <div className='formDetials'>
-        <form  style={{ display: 'flex', flexDirection: 'column' }} >
-            <label>Name:</label>
-            <input 
-            type="text"
-            required 
-            value={selectedName}
-            onChange={handleNameChange}
-            name = "name"
-            />
-
-            <label>Class:</label>
-            <input 
-            type="text"
-            required 
-            value={selectedBatch}
-            onChange={handleClassChange}
-            name = "batch"
-            />
-            <label>Roll No:</label>
-            <input 
-            type="number"
-            required 
-            value={selectedRollNo}
-            onChange={handleRollNoChange}
-            name = "roll_no"
-            />
-            <button onClick={handleSubmit}>Submit</button>
-        </form>
-        <h3>{response}</h3>
-        
+    <div className="container">
+      <div className='formDetials'>
+          <form >
+          <img src={profilepic} alt="" className='profile' />
+              <h1>Signup</h1>
+              <div className="form-group">
+                <label>Name:</label>
+                  <input 
+                  type="text"
+                  required 
+                  value={selectedName}
+                  onChange={handleNameChange}
+                  name = "name"
+                  />
+              </div>
+              
+              <div className="form-group">
+                <label>Class:</label>
+                <input 
+                type="text"
+                required 
+                value={selectedBatch}
+                onChange={handleClassChange}
+                name = "batch"
+                />
+              </div>
+              <div className="form-group">
+              <label>Roll No:</label>
+                <input 
+                type="number"
+                required 
+                value={selectedRollNo}
+                onChange={handleRollNoChange}
+                name = "roll_no"
+                />
+              </div>
+              
+              <button onClick={handleSubmit} className = "signup">Sign In</button>
+              <br />
+              <Link to="/student/login" className='Signup'> Registered? <span>Login</span></Link>
+          </form>
+        <img src={SignupImage} alt="SignupImage" className="signup-image" />
+          
+      </div>
     </div>
+    
     </>
 
   )

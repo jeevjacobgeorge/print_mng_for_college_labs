@@ -1,5 +1,6 @@
 import React from 'react'
 import  { useState, useEffect } from 'react';
+import '../assets/dashboard.css'
 const Dashboard = () => {
 
     const [selectedFile,setSelectedFile] = useState('');
