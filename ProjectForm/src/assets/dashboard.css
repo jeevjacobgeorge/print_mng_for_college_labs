@@ -1,3 +1,166 @@
 html{
     color:white;
 }
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: relative;
+}
+
+main.table{
+    width: 90vw;
+    height: 90vh;
+    background: url('../assests/cube_cut.jpg') center/cover;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+    overflow: hidden;
+    
+}
+
+.table_header{
+    width: 100%;
+    height: 10%;
+    font-size: 40px;
+    margin-bottom: 40px;
+
+
+    padding: .8rem 1rem;
+    
+}
+
+.table_body{
+    width: 95%;
+    max-height: calc(89% - .8rem);
+    background-color: rgba(22,32,42,0.5);
+    /* background-color: rgba(100,97,92,0.5); */
+    margin: .8rem auto;
+    border-radius: .6rem;
+    color: white;
+    overflow: auto;
+}
+
+.table_body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+.table_body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+    
+}
+.table_body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+
+table{
+    width: 100%;   
+}
+table, th, td{
+    border-collapse: collapse;
+    padding: 1rem;
+}
+thead th{
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: rgba(213, 209, 222, 0.5);
+    font-size: 26px;
+}
+
+
+tbody td{
+    text-align: center;
+}
+
+
+/*profile pic*/
+
+.profilepic{
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#drop_zone {
+    border: 5px solid blue;
+    width: 200px;
+    height: 100px;
+  }
+
+  .button-upload {
+    /* Reset OS-specfic / browser-specific default style (see https://ishadeed.com/article/styling-the-good-old-button/#the-default-styles) */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255); /* to be replaced with your custom design */
+    border: 1px solid currentColor; /* to be replaced with your custom design */
+    /* Signify interactivity */
+    border-radius: 4px; /* no physical button has a sharp corner; exact value to be replaced for your custom design */
+    cursor: pointer;
+    /* Match font style with the parent element */
+    font: inherit;
+    /* Make the button easy for touchscreen users to tap */
+    min-height: 48px;
+    min-width: 48px;
+  }
+  .button-upload:focus {
+    outline-offset: 4px; /* make Chrome show a focus ring around the button */
+  }
+  /* For decoration purpose only */
+  body {
+    /* System font stack; for detail, see my blog post: https://medium.com/towards-more-beautiful-web-typography/survey-system-font-stack-5f73a3b39776?sk=1146fc332b93995a83493f2f887acc72 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+  }
+.confirm{
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    flex: 1;
+    background: rgb(9, 155, 171);
+    border: none;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    margin-left: 60px;
+    margin-bottom: 15px;
+    margin-right: 60px;
+
+}  
+.confirm button{
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    flex: 1;
+    background: rgb(174, 174, 174);
+    border: none;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    margin-left: 60px;
+    margin-bottom: 15px;
+    margin-right: 60px;
+    
+}
