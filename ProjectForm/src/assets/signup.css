@@ -10,14 +10,15 @@ body{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     width: 100%;
     height: 100%;
+    background-color: #3E3F3F;
 }
 .formDetials {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 40px;
-    border: 1px solid black;
+    margin-block: 20px;
+    border:none;
     border-radius: 10px;
     width: 700px;
     height: 600px;
@@ -75,7 +76,7 @@ input[type="number"],input[type="text"] {
     max-width: 150px; 
     margin: 15px;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 18px;
     flex: 1;
     background: rgba(197,166,1,255);
     border: none;
