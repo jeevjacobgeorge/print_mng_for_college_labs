@@ -6,49 +6,61 @@ html{
     margin: 0;
     box-sizing: border-box;
 }
-body{
-    
+.dash-whole{
+    height: 100vh;
 }
 .container-dashboard{
-    min-height: 100vh;
+    min-height: 80vh;
+    margin-inline:122px;
    
 }
+.nav{
+    display: flex;
+    justify-content: space-between;
+    color:black;
+}
+.logout{
+    padding:12px;
+}
 h1{
-    color: white;
+    color:rgba(5, 27, 48, 0.9);
     margin-top: 0px;
     margin-left: 7px;
     margin-bottom: 5px;
 }
+
 main.table{
     width: 90vw;
     height: 90vh;
-    background: url('../assests/cube_cut.jpg') center/cover;
+    background: url('./assests/cube_cut.jpg') center/cover;
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
-    border-radius: .8rem;
+    border-radius: .9rem;
     overflow: hidden;
     
+    
 }
-
+.head{
+    background-color: #212121;
+}
 .table_header{
     width: 100%;
     height: 10%;
-    font-size: 40px;
+    font-size:30px;
     margin-bottom: 40px;
-
-
+    background-color: rgba(5, 27, 48, 0.9);
     padding: .8rem 1rem;
     
 }
-
 .table_body{
     width: 95%;
     max-height: calc(89% - .8rem);
-    background-color: rgba(22,32,42,0.5);
+    background-color: rgba(190, 198, 207, 0.7);
     /* background-color: rgba(100,97,92,0.5); */
     margin: .8rem auto;
     border-radius: .6rem;
-    color: white;
+    color:#2A2827;
+    font-weight: 600;
     overflow: auto;
 }
 
@@ -65,20 +77,30 @@ main.table{
 .table_body:hover::-webkit-scrollbar-thumb{
     visibility: visible;
 }
-
+.table_body a{
+    text-decoration: none;
+    color:#2A2827;
+    font-weight: 600;
+}
 table{
-    width: 100%;   
+    width: 100%;  
+    border-radius: 12px; 
 }
 table, th, td{
     border-collapse: collapse;
     padding: 1rem;
+    
+}
+.button-upload{
+    border-radius: 16px;
 }
 thead th{
     position: sticky;
     top: 0;
     left: 0;
     background-color: rgba(213, 209, 222, 0.5);
-    font-size: 26px;
+    font-size: 17px;
+    font-family: 'poppins', sans-serif;
 }
 
 
@@ -133,9 +155,9 @@ tbody td{
 .confirm{
     color: white;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     flex: 1;
-    background: rgb(9, 155, 171);
+    background: #3F3E3D;
     border: none;
     color: white;
     padding: 5px;
@@ -154,9 +176,9 @@ tbody td{
     font-weight: bold;
     font-size: 18px;
     flex: 1;
-    background: rgb(174, 174, 174);
+    background: #CECFCE;
     border: none;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 5px;
     cursor: pointer;
     padding-left: 15px;

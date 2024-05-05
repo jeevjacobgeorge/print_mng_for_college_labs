@@ -24,6 +24,7 @@ body {
 }
 .text-muted{
     color:#d8d3d3;
+    text-shadow: 2px 2px 4px #000000;
     
 }
 .lower_form {

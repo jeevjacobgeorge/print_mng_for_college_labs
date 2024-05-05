@@ -3,7 +3,7 @@ import '../assets/dashboard.css';
 import { Link } from 'react-router-dom';
 import profilepic from '../assets/profilepic.svg';
 import { FileUploader } from "./FileUploader.jsx";
-
+import backgroundImage from '../assets/printer.jpg';
 const Dashboard = () => {
     const [selectedFile, setSelectedFile] = useState('');
     const [selectedExp, setSelectedExp] = useState('');
@@ -81,41 +81,43 @@ const Dashboard = () => {
             <button className='yes' onClick={handleSubmit}>Yes</button>
             <button className='no' onClick={() => setfilebool(false)}>No</button>    
         </div>}
-            <div className="container-dashboard">
-                <div className="nav">
-                    <h1 className='headertext'>Dash<span>board</span></h1>
-                </div>
-                
-                <table>
-                    <thead className='table_head'>
-                        <tr>
-                            <th className='head'>Experiment</th>
-                            <th className='head'>Upload status</th>
-                            <th className='head'>Print Status</th>
-                        </tr>
-                    </thead>
-                    <tbody className='table_body'>
-                        {data.map(exp => (
-                            <tr key={exp.id}>
-                                <td>{exp.name.exp_name}</td>
-                                <td>
-                                    {exp.name.uploaded ? (
-                                        <a href={"http://127.0.0.1:8000/" + exp.name.url}>Uploaded</a>
-                                    ) : (
-                                        <div>
-                                            <DragDrop exp={exp} />
-                                            
-                                        </div>
-                                    )}
-                                </td>
-                                <td>{exp.name.printed ? 'Printed' : 'Not Printed'}</td>
+            <div className='dash-whole' style={{ backgroundImage: `url(${backgroundImage})` }}>
+                <div className="container-dashboard"  >
+                    <div className="nav">
+                        <h1 className='headertext'>Dash<span>board</span></h1>
+                        <div className='logout'>
+                            <Link to="/student/login">Logout</Link>
+                        </div>
+                    </div>
+                    
+                    <table>
+                        <thead className='table_head'>
+                            <tr>
+                                <th className='head'>Experiment</th>
+                                <th className='head'>Upload status</th>
+                                <th className='head'>Print Status</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <Link to="/student/login">Logout</Link>
+                        </thead>
+                        <tbody className='table_body'>
+                            {data.map(exp => (
+                                <tr key={exp.id}>
+                                    <td>{exp.name.exp_name}</td>
+                                    <td>
+                                        {exp.name.uploaded ? (
+                                            <a href={"http://127.0.0.1:8000/" + exp.name.url}>Uploaded</a>
+                                        ) : (
+                                            <div>
+                                                <DragDrop exp={exp} />
+                                                
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td>{exp.name.printed ? 'Printed' : 'Not Printed'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );

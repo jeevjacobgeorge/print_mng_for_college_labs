@@ -17,8 +17,8 @@ export const FileUploader = ({ handleFile }) => {
   };
   return (
     <>
-      <button className="button-upload" onClick={handleClick}>
-        Upload a file
+      <button className="button-upload" onClick={handleClick} style={{ border: "none", padding:"6px 12px", cursor: "pointer" }}>
+        Upload 
       </button>
       <input
         type="file"
