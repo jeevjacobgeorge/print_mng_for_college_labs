@@ -1,0 +1,95 @@
+/* signup.css */
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* Apply font family to the body */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url("../bg1.jpg"); 
+    background-size: cover;
+    color:rgb(255, 255, 255);
+}
+
+/* Style the content section */
+
+.content-section fieldset {
+    backdrop-filter: blur(4px); /* Add blur effect */
+}
+.content-section legend {
+    font-size: 24px;
+    font-weight: bold;
+    color: #eae5e5; /* Change legend color */
+
+}
+.text-muted{
+    color:#d8d3d3;
+    
+}
+.lower_form {
+    margin-top: 10px;
+    text-shadow: 2px 2px 4px #000000;
+    font-size: 16px;
+}
+.content-section fieldset{
+    padding-left:2%;
+}
+.content-section .form-group {
+    margin-top: 20px;
+}
+
+/* Style the sign-up button */
+.btn-signup {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px; /* Increase font size */
+    font-weight: 500; /* Use a slightly heavier font weight */
+}
+
+.btn-signup:hover {
+    background-color: #218838;
+}
+
+/* Style the sign-in link */
+.text-muted a {
+    color: #007bff;
+    font-weight: 500; /* Use a slightly heavier font weight */
+}
+
+.text-muted a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.btn {
+    background-color: #0d62bd; /* Button background color */
+    color: white; /* Text color */
+    border: 2px solid #0d62bd; /* Border color */
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Hover state */
+.btn:hover {
+    background-color: #072f5a; /* Darker background color on hover */
+    border-color: #0056b3; /* Darker border color on hover */
+}
+
+/* Focus state */
+.btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Add a subtle blue shadow on focus */
+}
+
+/* Active state */
+.btn:active {
+    transform: translateY(1px); /* Add a slight downward shift when the button is clicked */
+}

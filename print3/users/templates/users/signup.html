@@ -1,6 +1,19 @@
-{% extends "users/base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'users/signup.css' %}">
+</head>
+
+<body>
+
     <div class="content-section">
         <form method="POST" class="rounded p-4 bg-light">
             {% csrf_token %}
@@ -8,14 +21,19 @@
                 <legend class="border-bottom mb-4">Join Today</legend>
                 {{ form|crispy }}
             </fieldset>
-            <div class="form-group mt-4">
+            <div class="lower_form">
                 <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                <small class="text-muted">
+                    Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+                </small>
             </div>
         </form>
         <div class="border-top pt-3 mt-3">
-            <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
-            </small>
+            
         </div>
     </div>
-{% endblock content %}
+    
+</body>
+</html>
+
+

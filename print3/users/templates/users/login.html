@@ -1,21 +1,38 @@
-{% extends "users/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
-{% block content %}
-<div class="content-section">
-    <form method="POST" class="rounded p-4 bg-light">
-        {% csrf_token %}
-        <fieldset class="border p-3 rounded">
-            <legend class="border-bottom mb-4">Login</legend>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group mt-4">
-            <button class="btn btn-primary btn-block" type="submit">Login</button>
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'users/login.css' %}">
+</head>
+
+<body>
+
+      <div class="content-section">
+        <form method="POST" class="rounded p-4 bg-light">
+            {% csrf_token %}
+            <fieldset class="border p-3 rounded">
+                <legend class="border-bottom mb-4">Login</legend>
+                {{ form | crispy }}
+            </fieldset>
+            <div class="btn_div">
+                <button class="btn btn-primary btn-block" type="submit">Login</button>
+            </div>
+        </form>
+        <div class="border-top pt-3 mt-3">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'signup' %}">Sign Up Now</a>
+            </small>
         </div>
-    </form>
-    <div class="border-top pt-3 mt-3">
-        <small class="text-muted">
-            Need An Account? <a class="ml-2" href="{% url 'signup' %}">Sign Up Now</a>
-        </small>
     </div>
-</div>
-{% endblock content %}
+    
+</body>
+</html>
+
+

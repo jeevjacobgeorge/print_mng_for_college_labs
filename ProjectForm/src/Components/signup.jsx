@@ -9,6 +9,7 @@ const GetForm = () => {
     const [selectedName,setSelectedName] = useState('');
     const [selectedBatch,setSelectedBatch] = useState('');
     const [selectedRollNo,setSelectedRollNo] = useState('');
+    const [batchOptions, setBatchOptions] = useState([]);
     const[response,setResponse] = useState('');
     const[isSubmitted,setIsSubmitted] = useState(false);
     function handleSubmit(e){
@@ -23,6 +24,12 @@ const GetForm = () => {
       }).then(res => setResponse(res.statusText))
       .catch(error => console.log(error))
     }
+    useEffect(() => {
+      fetch('http://127.0.0.1:8000/api/batches')
+          .then(response => response.json())
+          .then(data => setBatchOptions(data))
+          .catch(error => console.error('Error fetching batch options:', error));
+  }, []);
     useEffect(()=>{
         if (response === 'Created'){
             setIsSubmitted(true)
@@ -61,13 +68,26 @@ const GetForm = () => {
               
               <div className="form-group">
                 <label>Class:</label>
-                <input 
+                <select
+                        value={selectedBatch}
+                        name="batch"
+                        required
+                        onChange={handleClassChange}
+                    >
+                        <option value="">Select Batch</option>
+                        {batchOptions.map(batch => (
+                            <option key={batch} value={batch}>
+                                {batch}
+                            </option>
+                        ))}
+                    </select>
+                {/* <input 
                 type="text"
                 required 
                 value={selectedBatch}
                 onChange={handleClassChange}
                 name = "batch"
-                />
+                /> */}
               </div>
               <div className="form-group">
               <label>Roll No:</label>
@@ -80,7 +100,7 @@ const GetForm = () => {
                 />
               </div>
               
-              <button onClick={handleSubmit} className = "signup">Sign In</button>
+              <button onClick={handleSubmit} className = "signup">Sign Up</button>
               <br />
               <Link to="/student/login" className='Signup'> Registered? <span>Login</span></Link>
           </form>

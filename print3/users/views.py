@@ -30,7 +30,8 @@ def home1(request):
         data_dict = {}
         
         students = Student.objects.filter(batch=batch)
-        
+        #sort by roll no
+        students = sorted(students, key=lambda x: x.roll_no)
         for student in students:
             data_dict[student.roll_no] = {}
             
@@ -41,11 +42,12 @@ def home1(request):
                     data_dict[student.roll_no][exp.exp_name][0] = True
                     data_dict[student.roll_no][exp.exp_name][1] = file_instance.file.url
                     data_dict[student.roll_no][exp.exp_name][2] = file_instance.printed
+                    data_dict[student.roll_no][exp.exp_name].append(file_instance.id)
 
                 except File.DoesNotExist:
                     data_dict[student.roll_no][exp.exp_name][0] = False
                     data_dict[student.roll_no][exp.exp_name][1] = ''
-                data_dict[student.roll_no][exp.exp_name].append(file_instance.id)
+                
         roll_list = json.dumps(list(data_dict.keys()))
         experiments_json = json.dumps(list(data_dict.values())) if data_dict else '[]'
         return render(request, 'users/home.html', {'experiments_json': experiments_json, 'batches': batches,'exp_names_list':exp_name_list, 'roll_list': roll_list})

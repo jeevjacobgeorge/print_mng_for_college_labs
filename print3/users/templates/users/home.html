@@ -1,34 +1,38 @@
 {% extends "users/base.html" %}
-{% load crispy_forms_tags %}
-{% block content %}
+  {% block content %}   
+  
     <div class="content-section">
+    
         <div class="main">
+            
+            <img src="../../static/logouticon.svg" alt="" id="logoutBtn" class="logout">
             <form id="myForm" action="/users/home1" method="post">
                 {% csrf_token %}
                 <div class="options">
-                    <label for="Class">Class</label>
+                    <!-- <label for="Class">Class</label> -->
                     <select name='batch' id="ClassDropdown" onchange="loadLabs()">
-                        <option value="" disabled selected>Select Class</option>
+                        <option class="optionList" value=""  selected>Select Class</option>
                         {% for batch in batches %}
-                            <option value="{{ batch }}">{{ batch }}</option>
+                            <option value="{{ batch }}" class="optionList">{{ batch }}</option>
                         {% endfor %}
                     </select>
-                    <label for="Class">Lab</label>
+                    <!-- <label for="Class">Lab</label> -->
                     <select name="lab" id="LabDropdown">
-                        <option value="" disabled selected>Select Lab</option>
+                        <option value="" disabled selected >Select Lab</option>
                     </select>
-                    <button type="submit" class="btn">Submit</button>
+                    <button type="submit" class="submitbtn">Submit</button>
                 </div>
             </form>
             {% if experiments_json %}
             <table id="printTable">
-                <thead>
+                <thead class="table_header">
                     <tr>
                         <th>Roll No</th>
                         {% for name in exp_names_list %}
                             <th>{{name}}</th>
                         {% endfor %}
                         <th>Print</th>
+                        
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -38,6 +42,12 @@
         </div>
     </div>
         <script>
+            // JavaScript
+            document.getElementById("logoutBtn").addEventListener("click", function() {
+                // Redirect to the logout page
+                window.location.href = "{% url 'login' %}"; 
+            });
+
             function markFilesAsPrinted(id) {
                      // Retrieve the CSRF token from the cookie
                     const csrftoken = getCookie('csrftoken');
@@ -92,7 +102,8 @@
                 .then(data => {
                     document.getElementById("LabDropdown").innerHTML = '';
                     for (var i = 0; i < data.length; i++) {
-                        document.getElementById("LabDropdown").innerHTML += `<option value="${data[i]['lab_name']}">${data[i]['lab_name']}</option>`
+                        document.getElementById("LabDropdown").innerHTML += `<option  value="${data[i]['lab_name']}" class = "optionList">${data[i]['lab_name']}</option>`
+                        
                     }
                 })
             }
@@ -111,27 +122,35 @@
                         console.log(experiments[i])
                         const td = document.createElement("td");  
                         td.innerHTML = roll_list[i].toString();  
+                        td.classList.add('rollno');
                         tr.appendChild(td);
                         for (var key in experiments[i]) {
                             if (experiments[i].hasOwnProperty(key)) {
                                 const td1 = document.createElement("td");
                                 if (experiments[i][key][2]){
-                                    td1.innerHTML = `<h3>Printed</h3>`
+                                    // printed
+                                    <!-- For tick mark =>  &#10004-->
+                                    td1.innerHTML = `<img src="../../static/print.svg" alt="" height="30px" width="30px">`
+
                                 }
                                 else if (experiments[i][key][0]){
+                                    // uploaded to print
                                     const url = "http://127.0.0.1:8000/" + `${experiments[i][key][1]}`;
                                     const id = `${experiments[i][key][3]}`
-                                    td1.innerHTML = `<button onclick=print('${url}','${id}')>Print</button>`;
+                                    td1.innerHTML = `<button class = "printbtn" onclick=print('${url}','${id}') >Print</button>`;
                                 }
                                 else{
-                                    td1.innerHTML = `<h3>NULL</h3>`
+                                     // not uploaded
+                                    
+                                    td1.innerHTML = `<img src="../../static/notUploaded.svg" alt="" height="30px" width="30px">`
                                 }
+                                td1.classList.add('exp');
                                 tr.appendChild(td1);
                                 // console.log(key + ": " + experiments[i][key]);
                             }
                         }
                         const td2 = document.createElement("td");
-                        td2.innerHTML = `<button onclick=print_student('${i}')>Print all</button>`;
+                        td2.innerHTML = `<button class = "printallbtn" onclick=print_student('${i}')>Print all</button>`;
                         tr.appendChild(td2)
                         table_body.appendChild(tr);
                     }

@@ -1,85 +1,197 @@
-/* Dark Mode Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Apply custom font to HTML body */
+html, body {
+    font-family: 'poppins', sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    background: #333333;
+    box-sizing: border-box;
     color: #fafafa;
+    background: url("../bg2.jpg"); 
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    /* background-position: center; */
 }
-
-h1, h2, h3, h4, h5, h6 {
-    color: #dddddd;
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-ul {
-    margin: 0;
-}
-
-.bg-steel {
-    background-color: #5f788a;
-}
-
-.site-header .navbar-nav .nav-link {
-    color: #cbd5db;
-}
-
-.site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
-}
-
-.site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-}
-
-.content-section {
-    background: #444444;
-    padding: 10px 20px;
-    border: 1px solid #666666;
-    border-radius: 3px;
+.home {
+    color: white;
+    text-decoration: none;
+    /* border: 1px solid white; */
+    margin: 10px;
     margin-bottom: 20px;
+    padding: 20px;
+    font-size: 20px;
+}
+.logout{
+    background: transparent;
+    color: white;
+    width: 80px;
+    height: 50px;
+    border-radius: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    color: #7F7148;
+    top: 25px;
+    right: 20px;
+    position: absolute;
+    transform: scale(1.2);
 }
 
-.article-title {
-    color: #dddddd;
+#printTable{
+    padding: 20px;
+    margin: 60px;
+    width: 80vw;
+    margin-left: 100px;
+    height: 90vh;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.printbtn{
+    color: white;
+    background: #7F7148;
+    width: 60px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: none;
+}
+.printallbtn, .submitbtn{
+    width: 100%;
+    max-width: 120px; 
+    margin: 10px;
+    font-size: 15px;
+    flex: 1;
+    background: rgba(197,166,1,255);
+    background: #7F7148;
+    
+    border: none;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    padding-left: 14px;
+    padding-right: 14px;
+    border-radius: 20px;
+    margin-top: 16px;
+}
+.printallbtn:hover, .submitbtn:hover, .printbtn:hover{
+    background: #564617;
+    cursor:pointer;
+    
+}
+.table_header{
+    width: 100%;
+    height: 10%;
+    font-size: 20px;
+    margin-bottom: 40px;
+    padding: .8rem 1rem;
 }
 
-a.article-title:hover {
-    color: #90caf9;
-    text-decoration: none;
+#table_body{
+    width: 95%;
+    max-height: calc(89% - .8rem);
+    margin: .8rem auto;
+    border-radius: .6rem;
+    color: white;
+    overflow: auto;
 }
 
-.article-content {
-    white-space: pre-line;
+.table_body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+.table_body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+    
+}
+.table_body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
 }
 
-.article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
+table{
+    width: 100%;   
 }
 
-.article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #666666;
+tbody tr:nth-child(even){
+    background-color: #0000000b;    
 }
 
-.article-metadata a:hover {
-    color: #fafafa;
-    text-decoration: none;
+.exp{
+    font-size: 24px;
+}
+table, th, td{
+    border-collapse: collapse;
+    padding: 4px;
 }
 
-.article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
+thead th{
+    top: 0;
+    left: 0;
+    background-color:rgba(124,123,119,0.5);
+    z-index: 2;
+    font-size: 20px;
+    background: rgba(22,32,42,255);
+}
+th{
+    font-weight: 400;
+}
+.rollno{
+    
+    font-size: 18px;
+}
+tbody td{
+    text-align: center;
 }
 
-.account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-}
 
-.account-heading {
-    font-size: 2.5rem;
+.options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
+ 
+select{
+    margin: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 20px;
+    color: white;
+    background: transparent;
+    width: 200px;
+    padding: 6px;
+    text-align: center;
+    font-size: 15px;
+}
+.optionList{
+    background: #063E66;
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+}
+.options button{
+    padding:7px;
+    margin-top:9px;
+}
+/* signup.css */
+
+/* Style the dropdown */
+
+
+

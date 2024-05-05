@@ -102,3 +102,8 @@ span{
     font-weight: bold;
 
 }
+option{
+    color: white;
+    background-color: rgba(22,32,42,255);
+    border: 1px solid white;
+}
