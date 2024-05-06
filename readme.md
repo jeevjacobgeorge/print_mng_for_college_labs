@@ -72,8 +72,7 @@ python manage.py runserver
 
 ## Contributors
 
-- John Doe (@johndoe)
-- Jane Smith (@janesmith)
+- JJacob B Stephen
 
 ## License
 
