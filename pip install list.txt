@@ -1,5 +1,0 @@
-pip install django 
-pip install django-cors-headers
-pip install django-crispy-forms
-pip install django-crispy-bootstrap4
-pip install djangorestframework
